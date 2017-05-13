@@ -38,9 +38,9 @@ def intersections(m, _max, _horizontal):
     return intersections
 
 def avg_value_by_grid(m):
-    values =  [[0 for i in range(5)] for j in range(5)]
-    for i in range(20):
-        for j in range(20):
+    values =  [[0 for i in range(7)] for j in range(7)]
+    for i in range(len(m)):
+        for j in range(len(m[0])):
             values[i // 4][j // 4] += m[i][j]
     return values
 
@@ -55,8 +55,17 @@ def generate_features(m):
     return [densityf, h_symmetryf, v_symmetryf, h_max_intersections, h_min_intersections, v_max_intersections, v_min_intersections, 1]
 
 def pmatrix(m):
-    for row in m:
-        print(row)
+    for i in range(len(m)):
+        if i%4 == 0:
+            print("|----|----|----|----|----|----|----")
+        for j in range(len(m[0])):
+            if j%4 == 0:
+                print("|", end="")
+            if m[i][j] == 1:
+                print(1, end = "")
+            else:
+                print(0, end = "")
+        print()
 
 ####################################################################################################################################################################################################################################
 
@@ -87,9 +96,9 @@ def pocket_perceptron(training_data,unknown_data):
 
 def main():
     one100 = md.one100
-    one900 = md.one900
-    five100 = md.five100
-    five900 = md.five900
+    #one900 = md.one900
+    #five100 = md.five100
+    #five900 = md.five900
 
     training_data = []
     unknown_data = []
