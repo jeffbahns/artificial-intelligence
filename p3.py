@@ -37,6 +37,13 @@ def intersections(m, _max, _horizontal):
         #intersections = max(intersections, _intersections) if _max else min(intersections, _intersections)
     return intersections
 
+def avg_value_by_grid(m):
+    values =  [[0 for i in range(5)] for j in range(5)]
+    for i in range(20):
+        for j in range(20):
+            values[i // 4][j // 4] += m[i][j]
+    return values
+
 def generate_features(m):
     densityf = density(m) # 1 density
     h_symmetryf = symmetry(m, True) # 2 horizontal symmetry
@@ -46,6 +53,10 @@ def generate_features(m):
     v_max_intersections = intersections(m, True, False) # 6 vertical max
     v_min_intersections = intersections(m, False, False) # 7 vertical min
     return [densityf, h_symmetryf, v_symmetryf, h_max_intersections, h_min_intersections, v_max_intersections, v_min_intersections, 1]
+
+def pmatrix(m):
+    for row in m:
+        print(row)
 
 ####################################################################################################################################################################################################################################
 
@@ -82,6 +93,12 @@ def main():
 
     training_data = []
     unknown_data = []
+
+    pmatrix(one100[0])
+    print(avg_value_by_grid(one100[0]))
+    
+    return 0
+
 
     # training data
     for one in one900:
