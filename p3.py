@@ -2,6 +2,7 @@ from numpy import array, fliplr, flipud, linalg, isnan, subtract, dot, random, m
 from random import choice, shuffle
 import mnist_data as md
 
+# features
 def density(m):
     # 1's / rows*columns
     ones = 0
@@ -44,30 +45,27 @@ def generate_features(m):
     h_min_intersections = intersections(m, False, True) # 5 horizontal min
     v_max_intersections = intersections(m, True, False) # 6 vertical max
     v_min_intersections = intersections(m, False, False) # 7 vertical min
-    #return [densityf, [h_symmetryf, v_symmetryf], [h_max_intersections, h_min_intersections, v_max_intersections, v_max_intersections], 1]
-    return [densityf, h_symmetryf, v_symmetryf, h_max_intersections, h_min_intersections, v_max_intersections, v_min_intersections,1]
-    #return [densityf, h_symmetryf, v_symmetryf]
+    return [densityf, h_symmetryf, v_symmetryf, h_max_intersections, h_min_intersections, v_max_intersections, v_min_intersections, 1]
+
+####################################################################################################################################################################################################################################
 
 def pocket_perceptron(training_data,unknown_data):
     num_features = len(training_data[0][0])
-    w = random.rand(num_features) # weights <w1, w2, ... , w7>
-    #print("w:",w)
+    w = random.rand(num_features) # weights <w0, w2, ... , w7>
+    print("w:",w)
     eta = .2
-    n = 100
+    epoch = 100
     correct = 0
     unit_step = lambda x: 1 if x < 0 else 5
-    for i in range(0, n):
+    
+    for i in range(0, epoch):
         td_copy = training_data[:]
         shuffle(td_copy)
         for x, expected in td_copy:
             result = dot(w, x)
             error = expected - unit_step(result)
             w += multiply(eta*error, x)
-        #x, expected = choice(training_data)
-        #result = dot(w, x)
-        #error = expected - unit_step(result)
-        #w += multiply(eta*error, x)
-        #print(w)
+
     for x, expected in unknown_data:
         result = dot(x, w)
         if unit_step(result) == expected:
@@ -84,9 +82,10 @@ def main():
 
     training_data = []
     unknown_data = []
+
     # training data
     for one in one900:
-        training_data.append((generate_features(one), 1))
+        training_data.append((generate_features(one), 1)) # tuple of features ([f0, f1, ..., fn], label)
     for five in five900:
         training_data.append((generate_features(five), 5))
 
